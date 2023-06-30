@@ -3,7 +3,7 @@ import random
 import pygame.draw
 
 
-class player:
+class Player:
 
   def __init__(self, playerId):
     self.playerId = playerId  # Player Id

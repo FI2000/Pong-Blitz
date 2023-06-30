@@ -1,9 +1,14 @@
-import time
+import os
 
 import pygame
+from dotenv import load_dotenv
 
 from Network import Network
-from engine.Player import player
+from engine.Player import Player
+from engine.gameEngineLib import redrawWindow
+from networkLib import displayMaxSizeReached, displayServerNotRunning, checkForQuit
+
+load_dotenv()
 
 width, height = 700, 700
 pygame.init()
@@ -12,60 +17,29 @@ win = pygame.display.set_mode((width, height))
 clock = pygame.time.Clock()
 pygame.display.set_caption("Client")
 
-
-def redrawWindow(win, listOfPlayers):
-  win.fill("black")
-  drawPlayers(listOfPlayers, win)
-  pygame.display.update()
-
-
-def drawPlayers(listOfPlayers, win):
-  for player in listOfPlayers:
-    pygame.draw.rect(win, player.color, pygame.Rect(player.positionX, player.positionY, player.width, player.height))
-
-
-def displayMaxSizeReached():
-  font = pygame.font.Font('freesansbold.ttf', 32)
-  text = font.render('Max lobby size reached.', True, "black", "white")
-  textRect = text.get_rect()
-  textRect.center = (width // 2, height // 2)
-  win.fill("white")
-  win.blit(text, textRect)
-  pygame.display.flip()
-
-
-def displayServerNotRunning():
-  font = pygame.font.Font('freesansbold.ttf', 32)
-  text = font.render('Server not running.', True, "black", "white")
-  textRect = text.get_rect()
-  textRect.center = (width // 2, height // 2)
-  win.fill("white")
-  win.blit(text, textRect)
-  pygame.display.flip()
+networkIP = os.getenv('NETWORK_IP')
+networkPort = os.getenv('NETWORK_PORT')
 
 
 def main():
-  n = Network()
+  n = Network(networkIP, networkPort)
   received = n.getPlayerId()
-  if received in (0, 1, 2, 3):
-    clientPlayer = player(received)
-    print("Connected as ", clientPlayer.playerId)
-    while True:
-      for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-          break
 
+  if received in (0, 1, 2, 3):
+    clientPlayer = Player(received)
+    print("Connected as ", clientPlayer.playerId)
+
+    while True:
+      checkForQuit()
       playerList = n.send(clientPlayer)
-      redrawWindow(win, playerList)
       clientPlayer.move()
+      redrawWindow(win, playerList)
+
   elif received not in (0, 1, 2, 3):
-    displayMaxSizeReached()
-    time.sleep(2)
-    pygame.quit()
+    displayMaxSizeReached(win, width, height)
+
   else:
-    displayServerNotRunning()
-    time.sleep(2)
-    pygame.quit()
+    displayServerNotRunning(win, width, height)
 
 
 main()
