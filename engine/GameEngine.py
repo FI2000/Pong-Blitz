@@ -1,8 +1,8 @@
 import pygame
 
-from Player import Player
+from Player import player
 
-Players = [Player(0)]  # 0 and 1 are left and right, 2 and 3 are top and bottom
+Players = [player(2)]  # 0 and 1 are left and right, 2 and 3 are top and bottom
 
 
 def drawPlayers(listOfPlayers, screen):  # Draws the player rectangles
@@ -17,7 +17,7 @@ def movePlayers(listOfPlayers):  # Updates the X and Y position of each player b
 
 # Initialize game and screen
 pygame.init()
-screen = pygame.display.set_mode((700, 700))
+win = pygame.display.set_mode((700, 700))
 clock = pygame.time.Clock()
 running = True
 
@@ -28,10 +28,10 @@ while running:
       running = False
 
   # Fill the screen black
-  screen.fill("black")
+  win.fill("black")
 
   # These two basically update the game
-  drawPlayers(Players, screen)
+  drawPlayers(Players, win)
   movePlayers(Players)
 
   pygame.display.flip()

@@ -3,7 +3,7 @@ import random
 import pygame.draw
 
 
-class Player:
+class player:
 
   def __init__(self, playerId):
     self.playerId = playerId  # Player Id
@@ -11,22 +11,26 @@ class Player:
     self.width, self.height = self.dimensions()  # Player dimensions
     self.color = color()
     self.rect = (self.positionX, self.positionY, self.width, self.height)
-    self.velocity = 3  # Player velocity
+    self.velocity = 0.65  # Player velocity
 
   def move(self):
     keys = pygame.key.get_pressed()
     up, down, left, right, accelerate = currentMovement(keys)
 
-    if not self.isHorizontal() and up:  # If you are on the vertical plane and are pressing up, move up
+    # If you are on the vertical plane and are pressing up, move up
+    if not self.isHorizontal() and up:
       self.positionY -= distance(self.velocity, accelerate)
 
-    if not self.isHorizontal() and down:  # // for down
+    # // for down
+    if not self.isHorizontal() and down:
       self.positionY += distance(self.velocity, accelerate)
 
-    if self.isHorizontal() and left:  # If you are on the horizontal plane and are pressing left, move left
+    # If you are on the horizontal plane and are pressing left, move left
+    if self.isHorizontal() and left:
       self.positionX -= distance(self.velocity, accelerate)
 
-    if self.isHorizontal() and right:  # // for right
+    # // for right
+    if self.isHorizontal() and right:
       self.positionX += distance(self.velocity, accelerate)
 
   def spawnPosition(self):  # Defining spawn positions, hard coded
@@ -38,6 +42,7 @@ class Player:
       return 305, 15
     if self.playerId == 3:
       return 305, 670
+    return -50000, -50000
 
   def dimensions(self):  # Defining dimensions, hard coded
     if self.isHorizontal():
@@ -53,7 +58,7 @@ class Player:
 
 def distance(velocity, shiftAccelerate):  # Calculates the distance to move per frame
   if shiftAccelerate:
-    return velocity * 3
+    return velocity * 2
   return velocity
 
 
