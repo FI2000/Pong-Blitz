@@ -33,7 +33,7 @@ def main():
       checkForQuit()
       playerList = n.send(clientPlayer)
       clientPlayer.move()
-      redrawWindow(win, playerList)
+      redrawWindow(win, playerList, received)
 
   elif received not in (0, 1, 2, 3):
     displayMaxSizeReached(win, width, height)
