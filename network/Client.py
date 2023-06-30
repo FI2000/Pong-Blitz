@@ -20,26 +20,28 @@ pygame.display.set_caption("Client")
 networkIP = os.getenv('NETWORK_IP')
 networkPort = os.getenv('NETWORK_PORT')
 
+AllowedPlayerIds = (0, 1, 2, 3)
+
 
 def main():
   n = Network(networkIP, networkPort)
-  received = n.getPlayerId()
+  clientPlayerId = n.getPlayerId()
 
-  if received in (0, 1, 2, 3):
-    clientPlayer = Player(received)
+  if clientPlayerId in AllowedPlayerIds:
+    clientPlayer = Player(clientPlayerId)
     print("Connected as ", clientPlayer.playerId)
 
     while True:
       checkForQuit()
       playerList = n.send(clientPlayer)
       clientPlayer.move()
-      redrawWindow(win, playerList, received)
+      redrawWindow(win, playerList, clientPlayerId)
 
-  elif received not in (0, 1, 2, 3):
-    displayMaxSizeReached(win, width, height)
-
-  else:
+  elif clientPlayerId is None:
     displayServerNotRunning(win, width, height)
+
+  elif clientPlayerId not in AllowedPlayerIds:
+    displayMaxSizeReached(win, width, height)
 
 
 main()
