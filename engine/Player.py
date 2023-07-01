@@ -18,26 +18,26 @@ class Player:
     up, down, left, right, accelerate = currentMovement(keys)
 
     # If you are on the vertical plane and are pressing up, move up
-    if not self.isHorizontal() and up and self.positionY >= 40:
+    if not self.isHorizontal() and up and self.positionY >= 15:
       self.positionY -= distance(self.velocity, accelerate)
 
     # // for down
-    if not self.isHorizontal() and down and self.positionY <= 570:
+    if not self.isHorizontal() and down and self.positionY <= 600:
       self.positionY += distance(self.velocity, accelerate)
 
     # If you are on the horizontal plane and are pressing left, move left
-    if self.isHorizontal() and left and self.positionX >= 40:
+    if self.isHorizontal() and left and self.positionX >= 15:
       self.positionX -= distance(self.velocity, accelerate)
 
     # // for right
-    if self.isHorizontal() and right and self.positionX <= 570:
+    if self.isHorizontal() and right and self.positionX <= 800:
       self.positionX += distance(self.velocity, accelerate)
 
   def spawnPosition(self):  # Defining spawn positions, hard coded
     if self.playerId == 0:
       return 15, 305
     if self.playerId == 1:
-      return 670, 305
+      return 870, 305
     if self.playerId == 2:
       return 305, 15
     if self.playerId == 3:
