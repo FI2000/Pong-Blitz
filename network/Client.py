@@ -22,12 +22,15 @@ def main():
 
   pygame.init()
   pygame.font.init()
+  pygame.mixer.music.load('audio.mp3')
+  pygame.mixer.music.set_volume(0.07)
   win = pygame.display.set_mode((width, height))
   pygame.display.set_caption("Client")
 
   n = Network(networkIP, networkPort)
   clientPlayerId = n.getPlayerId()
   if clientPlayerId in AllowedPlayerIds:
+    pygame.mixer.music.play()
     player = Player(clientPlayerId)
     print("Connected as ", player.playerId)
     while True:

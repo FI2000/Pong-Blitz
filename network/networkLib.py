@@ -66,7 +66,7 @@ def checkForGameStart(numOfConnectedPlayers):
 
 def checkForWinner(list):
   maxValue = max(list)
-  if maxValue > 2:
+  if maxValue > 15:
     return list.index(maxValue)
   else:
     return 100
