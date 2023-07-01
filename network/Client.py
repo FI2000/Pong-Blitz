@@ -10,7 +10,7 @@ from networkLib import displayMaxSizeReached, displayServerNotRunning, checkForQ
 
 load_dotenv()
 
-width, height = 700, 700
+width, height = 900, 700
 pygame.init()
 pygame.font.init()
 win = pygame.display.set_mode((width, height))
@@ -21,6 +21,7 @@ networkIP = os.getenv('NETWORK_IP')
 networkPort = os.getenv('NETWORK_PORT')
 
 AllowedPlayerIds = (0, 1, 2, 3)
+playerList = []
 
 
 def main():
@@ -32,10 +33,11 @@ def main():
     print("Connected as ", clientPlayer.playerId)
 
     while True:
+      global playerList
       checkForQuit()
-      playerList = n.send(clientPlayer)
+      playerList, pongBall = n.send(clientPlayer)
       clientPlayer.move()
-      redrawWindow(win, playerList, clientPlayerId)
+      redrawWindow(win, playerList, pongBall, clientPlayerId)
 
   elif clientPlayerId is None:
     displayServerNotRunning(win, width, height)
