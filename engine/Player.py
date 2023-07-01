@@ -11,7 +11,7 @@ class Player:
     self.width, self.height = self.dimensions()  # Player dimensions
     self.color = color()
     self.rect = (self.positionX, self.positionY, self.width, self.height)
-    self.velocity = 0.65  # Player velocity
+    self.velocity = 0.85  # Player velocity
 
   def move(self):
     keys = pygame.key.get_pressed()

@@ -3,7 +3,7 @@ class pongBall:
     self.positionX = positionX
     self.positionY = positionY
     self.isMoving = False
-    self.velocity = 0.2
+    self.velocity = 0.4
     self.accelerationTicks = 0.5
     self.accelerationValue = 0.1
     self.dx = 1
@@ -23,31 +23,52 @@ class pongBall:
       self.positionX += self.dx * (self.velocity + (self.accelerationValue * self.accelerationTicks))
       self.positionY += self.dy * (self.velocity + (self.accelerationValue * self.accelerationTicks))
 
-  def bounce(self, listOfPlayers):
-    for player in listOfPlayers:
-      self.checkTouchesPlayer(player.playerId, player.positionX, player.positionY)
-    if self.positionY <= 0 or self.positionY >= 700:
-      self.dy *= -1
-    if self.positionX <= 0 or self.positionX >= 900:
+  def wallBounce(self):
+    if self.positionX <= 0:
       self.dx *= -1
+      return 0
+    if self.positionX >= 900:
+      self.dx *= -1
+      return 1
+    if self.positionY <= 0:
+      self.dy *= -1
+      return 2
+    if self.positionY >= 700:
+      self.dy *= -1
+      return 3
 
-  def checkTouchesPlayer(self, playerId, playerPositionX, playerPositionY):
-    if playerId == 0:
-      if playerPositionX + 16.5 <= self.positionX <= playerPositionX + 17 and playerPositionY <= self.positionY <= (
-              playerPositionY + 90):
-        self.dx *= -1
+  def checkTouchesPlayer(self, listOfPlayers):
+    for player in listOfPlayers:
+      playerId = player.playerId
+      playerPositionX = player.positionX
+      playerPositionY = player.positionY
 
-    if playerId == 1:
-      if playerPositionX <= self.positionX <= playerPositionX + 0.1 and playerPositionY <= self.positionY <= (
-              playerPositionY + 90):
-        self.dx *= -1
+      if playerId == 0:
+        if playerPositionX + 16.5 <= self.positionX <= playerPositionX + 17 and playerPositionY <= self.positionY <= (
+                playerPositionY + 90):
+          print("touched player 0")
+          self.dx *= -1
+          return playerId, 1
 
-    if playerId == 2:
-      if playerPositionY + 13 <= self.positionY <= playerPositionY + 15 and playerPositionX <= self.positionX <= (
-              playerPositionX + 90):
-        self.dy *= -1
+      if playerId == 1:
+        if playerPositionX <= self.positionX <= playerPositionX + 0.5 and playerPositionY <= self.positionY <= (
+                playerPositionY + 90):
+          print("touched player 1")
+          self.dx *= -1
+          return playerId, 1
 
-    if playerId == 3:
-      if playerPositionY <= self.positionY <= playerPositionY + 2 and playerPositionX <= self.positionX <= (
-              playerPositionX + 90):
-        self.dy *= -1
+      if playerId == 2:
+        if playerPositionY + 13 <= self.positionY <= playerPositionY + 15 and playerPositionX <= self.positionX <= (
+                playerPositionX + 90):
+          print("touched player 2")
+          self.dy *= -1
+          return playerId, 1
+
+      if playerId == 3:
+        if playerPositionY <= self.positionY <= playerPositionY + 2 and playerPositionX <= self.positionX <= (
+                playerPositionX + 90):
+          print("touched player 3")
+          self.dy *= -1
+          return playerId, 1
+
+    return None, None

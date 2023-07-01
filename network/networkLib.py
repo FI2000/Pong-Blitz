@@ -55,3 +55,18 @@ def checkForQuit():
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
       break
+
+
+def checkForGameStart(numOfConnectedPlayers):
+  startGame = False
+  if numOfConnectedPlayers >= 2:
+    startGame = True
+  return startGame
+
+
+def checkForWinner(list):
+  maxValue = max(list)
+  if maxValue > 2:
+    return list.index(maxValue)
+  else:
+    return 100
