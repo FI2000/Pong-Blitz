@@ -5,8 +5,8 @@ from engine.Player import Player
 from engine.gameEngineLib import redrawWindow
 from networkLib import displayMaxSizeReached, displayServerNotRunning, checkForQuit
 
-networkIP = input("Enter server IP")
-networkPort = int(input("Enter server port"))
+networkIP = input("Enter server IP: ")
+networkPort = int(input("Enter server port: "))
 
 AllowedPlayerIds = (0, 1, 2, 3)
 playerList = []
@@ -18,12 +18,15 @@ def main():
 
   pygame.init()
   pygame.font.init()
-  crash_sound = pygame.mixer.Sound("../sounds/paddle.wav")
-  crash_sound.set_volume(0.05)
-  winner_sound = pygame.mixer.Sound("../sounds/winner.wav")
-  winner_sound.set_volume(0.1)
-  pygame.mixer.music.load('../sounds/audio.mp3')
-  pygame.mixer.music.set_volume(0.07)
+  try:
+    crash_sound = pygame.mixer.Sound("./sounds/paddle.wav")
+    crash_sound.set_volume(0.05)
+    winner_sound = pygame.mixer.Sound("./sounds/winner.wav")
+    winner_sound.set_volume(0.1)
+    pygame.mixer.music.load('./sounds/audio.mp3')
+    pygame.mixer.music.set_volume(0.07)
+  except:
+    pass
   win = pygame.display.set_mode((width, height))
   pygame.display.set_caption("Client")
   WinnerSoundPlaying = False
@@ -31,7 +34,10 @@ def main():
   clientPlayerId = n.getPlayerId()
 
   if clientPlayerId in AllowedPlayerIds:
-    pygame.mixer.music.play()
+    try:
+      pygame.mixer.music.play()
+    except:
+      pass
     player = Player(clientPlayerId)
     print("Connected as ", player.playerId)
     while True:
@@ -41,16 +47,22 @@ def main():
         break
       playerList, pongBall, playerPoints, winnerId, Collision = n.send(player)
       if Collision:
-        pygame.mixer.Sound.play(crash_sound)
+        try:
+          pygame.mixer.Sound.play(crash_sound)
+        except:
+          pass
         Collision = False
-      if winnerId != 100:
-        pygame.mixer.music.pause()
-        if not WinnerSoundPlaying:
-          winner_sound.play()
-          WinnerSoundPlaying = True
-      if winnerId == 100:
-        pygame.mixer.music.unpause()
-        WinnerSoundPlaying = False
+      try:
+        if winnerId != 100:
+          pygame.mixer.music.pause()
+          if not WinnerSoundPlaying:
+            winner_sound.play()
+            WinnerSoundPlaying = True
+        if winnerId == 100:
+          pygame.mixer.music.unpause()
+          WinnerSoundPlaying = False
+      except:
+        pass
       player.move()
       redrawWindow(win, playerList, pongBall, clientPlayerId, playerPoints, winnerId)
 

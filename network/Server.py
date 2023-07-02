@@ -9,8 +9,8 @@ from engine.gameEngineLib import accelerationValue, retractPoints
 from engine.pongBall import pongBall
 from networkLib import markPlayerConnected, returnEmptyConnexionSpot, checkForGameStart, checkForWinner, gameReset
 
-serverIp = input("Enter server IP")
-serverPort = int(input("Enter server port"))
+serverIp = input("Enter server IP: ")
+serverPort = int(input("Enter server port: "))
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
