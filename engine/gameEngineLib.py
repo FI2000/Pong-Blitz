@@ -61,3 +61,12 @@ def accelerationValue(listOfPoints):
   accelerationTick = 0.5
   addition = sum(listOfPoints) / 20
   return accelerationTick + addition
+
+
+def retractPoints(player_id, players, playerPoints):
+  currentPointList = playerPoints
+  currentPlayers = players
+  if currentPlayers[player_id].playerId != 99:
+    if currentPointList[player_id] > 0:
+      currentPointList[player_id] -= 1
+  return currentPlayers, currentPointList

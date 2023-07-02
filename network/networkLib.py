@@ -1,6 +1,9 @@
 import time
+from random import randint
 
 import pygame
+
+from engine.pongBall import pongBall
 
 
 def markPlayerConnected(playerConnexionDictionnary):
@@ -52,9 +55,14 @@ def displayServerNotRunning(win, width, height):
 
 
 def checkForQuit():
+  LeaveGame = False
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
-      break
+      LeaveGame = True
+  keys = pygame.key.get_pressed()
+  if keys[pygame.K_ESCAPE]:
+    LeaveGame = True
+  return LeaveGame
 
 
 def checkForGameStart(numOfConnectedPlayers):
@@ -66,7 +74,17 @@ def checkForGameStart(numOfConnectedPlayers):
 
 def checkForWinner(list):
   maxValue = max(list)
-  if maxValue > 15:
+  if maxValue > 1:
     return list.index(maxValue)
   else:
     return 100
+
+
+def gameReset():
+  playerPoints = [0, 0, 0, 0]
+  pong_ball = pongBall(randint(390, 410), randint(350, 400))
+  pong_ball.accelerationTicks = 0.5
+  winnerId = 100
+  startGame = True
+  Collision = False
+  return playerPoints, pong_ball, winnerId, startGame, Collision
