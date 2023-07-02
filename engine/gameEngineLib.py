@@ -59,7 +59,7 @@ def redrawWindow(win, listOfPlayers, pongBall, playerId, playerPoints, winnerId)
 
 def accelerationValue(listOfPoints):
   accelerationTick = 0.5
-  addition = sum(listOfPoints) / 20
+  addition = sum(listOfPoints) / 10
   return accelerationTick + addition
 
 

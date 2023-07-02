@@ -1,17 +1,12 @@
-import os
-
 import pygame
-from dotenv import load_dotenv
 
 from Network import Network
 from engine.Player import Player
 from engine.gameEngineLib import redrawWindow
 from networkLib import displayMaxSizeReached, displayServerNotRunning, checkForQuit
 
-load_dotenv()
-
-networkIP = os.getenv('NETWORK_IP')
-networkPort = os.getenv('NETWORK_PORT')
+networkIP = input("Enter server IP")
+networkPort = int(input("Enter server port"))
 
 AllowedPlayerIds = (0, 1, 2, 3)
 playerList = []
