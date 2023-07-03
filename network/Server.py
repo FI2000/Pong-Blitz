@@ -1,21 +1,16 @@
-import os
 import pickle
 import socket
 import time
 from _thread import *
 from random import randint, random
 
-from dotenv import load_dotenv
-
 from engine.Player import Player
 from engine.gameEngineLib import accelerationValue, retractPoints
 from engine.pongBall import pongBall
 from networkLib import markPlayerConnected, returnEmptyConnexionSpot, checkForGameStart, checkForWinner, gameReset
 
-load_dotenv()
-
-serverIp = os.getenv('NETWORK_IP')
-serverPort = int(os.getenv('NETWORK_PORT'))
+serverIp = input("Enter server IP: ")
+serverPort = int(input("Enter server port: "))
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -87,7 +82,7 @@ def threaded_client(conn, playerId):
 
       except:
         break
-
+    print("Player " + str(playerId) + " disconnected")
     numOfConnectedPlayers -= 1
     connectedPlayersList.update({str(playerId): False})
     players[playerId] = Player(99)
